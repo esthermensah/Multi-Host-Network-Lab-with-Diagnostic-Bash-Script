@@ -15,17 +15,23 @@ echo "----------------------------------------" >> $LOGFILE
 for IP in "${TARGETS[@]}"; do 
     echo "Testing $IP..." | tee -a "$LOGFILE"
 
-    echo "Ping Test:" | tee -a "$LOGFILE"
+    echo "--Ping Test--" | tee -a "$LOGFILE"
     ping -c 3 "$IP" >> "$LOGFILE" 2>&1
     echo "-----------------------------" >> "$LOGFILE"
 
-    echo "Traceroute :" | tee -a "$LOGFILE"
+    echo "--Traceroute--" | tee -a "$LOGFILE"
     traceroute -m 10 "$IP" >> "$LOGFILE" 2>&1
     echo "-----------------------------" >> "$LOGFILE"
 
-    echo "DNS LOOKUP :" | tee -a "$LOGFILE"
+    echo "--DNS LOOKUP--:" | tee -a "$LOGFILE"
     nslookup "$IP" >> "$LOGFILE" 2>&1
     echo "-----------------------------" >> "$LOGFILE"
+
+    echo "--Port Scan--:" | tee -a "$LOGFILE"
+    nmap -Pn "$IP" >> "$LOGFILE" 2>&1
+    
+
+
 done
 
 echo "Diagnostic completed. Results saved to $LOGFILE"
